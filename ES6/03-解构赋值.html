@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 1.数组解构
+        // 传统写法
+        // let a = 1, b = 2, c = 3;
+        // console.log(a,b,c);
+        // // ES6
+        // let [x,y,z] = [1,2,3];
+        // console.log(x,y,z);
+
+        // 2.对象解构
+        let user = {name:'Hudie',age:23}
+        // 传统写法
+        let name01 = user.name;
+        let age01 = user.age;
+        console.log(name01,age01);
+        // ES6
+        let { name, age } = user;
+        // console.log(name01);
+        console.log(name,age);
+    </script>
+
+</body>
+
+</html>
