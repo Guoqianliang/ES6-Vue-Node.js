@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="show01()">事件绑定</button>
+        <br><br>
+        <button @click="show02()">事件绑定简写</button>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                keyword: '信息工程学院'
+            },
+            methods: {
+                show01() {
+                    console.log("show01...")
+                },
+                show02(){
+                    console.log("show02...")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

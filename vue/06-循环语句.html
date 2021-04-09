@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(user,index) in userList">
+            <span v-html="index"></span> --
+            <span v-html="user.name"></span> --
+            <span v-html="user.age"></span>
+        </div>
+    </div>
+    <script src="js/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                userList: [
+                    { "name": "Hudie", "age": 23 },
+                    { "name": "Lucy", "age": 21 }
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>
