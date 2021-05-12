@@ -291,7 +291,7 @@ export default {
     },
     //点击某个医院名称，跳转到详情页面中
     show(hoscode) {
-      window.location.href = "/hospital/" + hoscode;
+      window.location.href = "/hosp/" + hoscode;
     },
   },
 };
