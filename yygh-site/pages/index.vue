@@ -222,7 +222,7 @@ export default {
   methods: {
     //查询医院等级列表 和 所有地区列表
     init() {
-      //查询医院等级列表
+      // 查询医院等级列表
       dictApi.findByDictCode("Hostype").then((response) => {
         //hostypeList清空
         this.hostypeList = [];
