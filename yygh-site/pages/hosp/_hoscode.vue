@@ -167,6 +167,7 @@ import "~/assets/css/hospital_personal.css";
 import "~/assets/css/hospital.css";
 
 import hospApi from "@/api/hosp";
+import cookie from "js-cookie";
 
 export default {
   data() {
@@ -205,6 +206,12 @@ export default {
     },
 
     schedule(depcode) {
+      // 登录判断
+      let token = cookie.get("token");
+      if (!token) {
+        loginEvent.$emit("loginDialogEvent");
+        return;
+      }
       window.location.href =
         "/hospital/schedule?hoscode=" + this.hoscode + "&depcode=" + depcode;
     },
