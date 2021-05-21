@@ -166,6 +166,7 @@ import Vue from "vue";
 import userInfoApi from "@/api/userInfo";
 import smsApi from "@/api/msm";
 import hospitalApi from "@/api/hosp";
+import weixinApi from "@/api/weixin";
 
 const defaultDialogAtrr = {
   showLoginType: "phone", // 控制手机登录与微信登录切换
@@ -202,7 +203,7 @@ export default {
   created() {
     this.showInfo();
   },
-  // 页面渲染之后执行
+  // 页面渲染之后执行mounted返回
   mounted() {
     // 注册全局登录事件对象
     window.loginEvent = new Vue();
@@ -211,8 +212,34 @@ export default {
       document.getElementById("loginDialog").click();
     });
     // 触发事件，显示登录层：loginEvent.$emit('loginDialogEvent')
+
+    //初始化微信js
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js";
+    document.body.appendChild(script);
+
+    // 微信登录回调处理
+    let self = this;
+    window["loginCallback"] = (name, token, openid) => {
+      self.loginCallback(name, token, openid);
+    };
   },
   methods: {
+    // 微信回调的方法
+    loginCallback(name, token, openid) {
+      // 前端判断:如果openid不为空,绑定手机号;如果openid为空,不需要绑定手机号
+      if (openid != "") {
+        // 不为空,绑定手机号
+        this.userInfo.openid = openid;
+        this.showLogin();
+      } else {
+        // 已经绑定了手机号,就直接放入cookie中
+        this.setCookies(name, token);
+      }
+    },
+
     //在输入框输入值，弹出下拉框，显示相关内容
     querySearchAsync(queryString, cb) {
       this.searchObj = [];
@@ -363,6 +390,26 @@ export default {
 
     weixinLogin() {
       this.dialogAtrr.showLoginType = "weixin";
+      // 初始化微信相关参数
+      weixinApi.getLoginParam().then((response) => {
+        var obj = new WxLogin({
+          self_redirect: true,
+          // 需要显示的容器id
+          id: "weixinLogin",
+          // 公众号appid wx*******
+          appid: response.data.appid,
+          // 网页默认即可
+          scope: response.data.scope,
+          // 授权成功后回调的url
+          redirect_uri: response.data.redirectUri,
+          // 可设置为简单的随机数加session用来校验
+          state: response.data.state,
+          // 提供"black"、"white"可选。二维码的样式
+          style: "black",
+          // 外部css文件url，需要https
+          href: "",
+        });
+      });
     },
 
     phoneLogin() {
