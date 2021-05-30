@@ -165,11 +165,12 @@
 <script>
 import "~/assets/css/hospital_personal.css";
 import "~/assets/css/hospital.css";
+import userInfoApi from "@/api/userInfo";
 
 import hospApi from "@/api/hosp";
 import cookie from "js-cookie";
 
-export default {
+export default {  
   data() {
     return {
       hoscode: null,
@@ -206,14 +207,24 @@ export default {
     },
 
     schedule(depcode) {
-      // 登录判断
-      let token = cookie.get("token");
-      if (!token) {
-        loginEvent.$emit("loginDialogEvent");
+    // 登录判断
+    let token = cookie.get('token')
+    if (!token) {
+      loginEvent.$emit('loginDialogEvent')
+      return
+    }
+
+    //判断认证
+    userInfoApi.getUserInfo().then((response) => {
+      let authStatus = response.data.authStatus;
+      // 状态为2认证通过
+      if (!authStatus || authStatus != 2) {
+        window.location.href = "/user";
         return;
       }
-      window.location.href =
-        "/hospital/schedule?hoscode=" + this.hoscode + "&depcode=" + depcode;
+    });
+
+      window.location.href = '/hosp/schedule?hoscode=' + this.hospital.hoscode + "&depcode="+ depcode
     },
   },
 };

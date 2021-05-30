@@ -27,6 +27,10 @@ export default {
     myheader,
     myfooter,
   },
+  // mounted() {
+  //   window.document.getElementById("__nuxt").classList.add("app-container");
+  //   window.document.getElementById("__layout").classList.add("app-container");
+  // },
 };
 </script>
 

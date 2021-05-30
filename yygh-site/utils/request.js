@@ -4,17 +4,16 @@ import cookie from 'js-cookie'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: 'http://localhost:9000',
+    baseURL: 'http://localhost:80',
     timeout: 15000 // 请求超时时间
 })
-// http request (请求)拦截器
+// http request 拦截器
 service.interceptors.request.use(
     config => {
         // token 先不处理，后续使用时在完善
-
-        // 判断cookie中是否有token值
+        //判断cookie是否有token值
         if (cookie.get('token')) {
-            // 将token值放到cookie里面
+            //token值放到cookie里面
             config.headers['token'] = cookie.get('token')
         }
         return config
@@ -22,11 +21,14 @@ service.interceptors.request.use(
     err => {
         return Promise.reject(err)
     })
-// http response (响应)拦截器
+// http response 拦截器
 service.interceptors.response.use(
+    
     response => {
+        //状态码是208
+        
         if (response.data.code === 208) {
-            // 弹出登录输入框
+            //弹出登录输入框
             loginEvent.$emit('loginDialogEvent')
             return
         } else {

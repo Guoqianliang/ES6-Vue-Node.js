@@ -107,6 +107,7 @@
             </div>
           </div>
         </div>
+
         <!-- 手机登录 #end -->
 
         <!-- 微信登录 #start -->
@@ -160,8 +161,8 @@
 
 
 <script>
-import cookie from "js-cookie";
 import Vue from "vue";
+import cookie from "js-cookie";
 
 import userInfoApi from "@/api/userInfo";
 import smsApi from "@/api/msm";
@@ -203,6 +204,8 @@ export default {
   created() {
     this.showInfo();
   },
+
+
   // 页面渲染之后执行mounted返回
   mounted() {
     // 注册全局登录事件对象
@@ -226,20 +229,19 @@ export default {
       self.loginCallback(name, token, openid);
     };
   },
+  // 微信回调的方法
+  loginCallback(name, token, openid) {
+    // 前端判断:如果openid不为空,绑定手机号;如果openid为空,不需要绑定手机号
+    if (openid != "") {
+      // 不为空,绑定手机号
+      this.userInfo.openid = openid;
+      this.showLogin();
+    } else {
+      // 已经绑定了手机号,就直接放入cookie中
+      this.setCookies(name, token);
+    }
+  },
   methods: {
-    // 微信回调的方法
-    loginCallback(name, token, openid) {
-      // 前端判断:如果openid不为空,绑定手机号;如果openid为空,不需要绑定手机号
-      if (openid != "") {
-        // 不为空,绑定手机号
-        this.userInfo.openid = openid;
-        this.showLogin();
-      } else {
-        // 已经绑定了手机号,就直接放入cookie中
-        this.setCookies(name, token);
-      }
-    },
-
     //在输入框输入值，弹出下拉框，显示相关内容
     querySearchAsync(queryString, cb) {
       this.searchObj = [];
@@ -419,4 +421,3 @@ export default {
   },
 };
 </script>
-
