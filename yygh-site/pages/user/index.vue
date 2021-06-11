@@ -34,14 +34,14 @@
         </div>
         <div class="form-wrapper" v-if="userInfo.authStatus == 0">
           <div>
-            <el-form :model="userAuah" label-width="110px" label-position="left">
+            <el-form :model="userAuth" label-width="110px" label-position="left">
               <el-form-item prop="name" label="姓名：" class="form-normal">
                 <div class="name-input">
-                  <el-input v-model="userAuah.name" placeholder="请输入联系人姓名全称" class="input v-input"/>
+                  <el-input v-model="userAuth.name" placeholder="请输入联系人姓名全称" class="input v-input"/>
                 </div>
               </el-form-item>
               <el-form-item prop="certificatesType" label="证件类型：">
-                <el-select v-model="userAuah.certificatesType" placeholder="请选择证件类型" class="v-select patient-select">
+                <el-select v-model="userAuth.certificatesType" placeholder="请选择证件类型" class="v-select patient-select">
                   <el-option
                     v-for="item in certificatesTypeList"
                     :key="item.value"
@@ -51,7 +51,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item prop="certificatesNo" label="证件号码：">
-                <el-input v-model="userAuah.certificatesNo" placeholder="请输入联系人证件号码" class="input v-input"/>
+                <el-input v-model="userAuth.certificatesNo" placeholder="请输入联系人证件号码" class="input v-input"/>
               </el-form-item>
               <el-form-item prop="name" label="上传证件：">
                 <div class="upload-wrapper">
@@ -62,9 +62,9 @@
                       :show-file-list="false"
                       :on-success="onUploadSuccess">
                       <div class="upload-inner-wrapper">
-                        <img v-if="userAuah.certificatesUrl" :src="userAuah.certificatesUrl" class="avatar">
+                        <img v-if="userAuth.certificatesUrl" :src="userAuth.certificatesUrl" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        <div v-if="!userAuah.certificatesUrl" class="text"> 上传证件合照</div>
+                        <div v-if="!userAuth.certificatesUrl" class="text"> 上传证件合照</div>
                       </div>
                     </el-upload>
                   </div>
@@ -74,7 +74,7 @@
             </el-form>
             <div class="bottom-wrapper">
               <div class="button-wrapper">
-                <div class="v-button" @click="saveUserAuah()">{{ submitBnt }}</div>
+                <div class="v-button" @click="saveUserAuth()">{{ submitBnt }}</div>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@ const defaultForm = {
 export default {
   data() {
     return {
-      userAuah: defaultForm,
+      userAuth: defaultForm,
       certificatesTypeList: [],
       fileUrl:'http://localhost/api/oss/file/fileUpload',
       userInfo: {
@@ -134,16 +134,6 @@ export default {
   created() {
     this.init()
   },
-  // mounted() {
-  //       // 注册全局登录事件对象
-  //   window.loginEvent = new Vue();
-  //   // 监听登录事件
-  //   loginEvent.$on("loginDialogEvent", function () {
-  //     document.getElementById("loginDialog").click();
-  //   });
-  //   // 触发事件，显示登录层：loginEvent.$emit('loginDialogEvent')
-  //   loginEvent.$emit('loginDialogEvent')
-  // },
   methods: {
     init() {
       this.getUserInfo()
@@ -154,13 +144,13 @@ export default {
         this.userInfo = response.data
       })
     },
-    saveUserAuah() {
+    saveUserAuth() {
       if(this.submitBnt == '正在提交...') {
         this.$message.info('重复提交')
         return
       }
       this.submitBnt = '正在提交...'
-      userInfoApi.saveUserAuth(this.userAuah).then(response => {
+      userInfoApi.saveUserAuth(this.userAuth).then(response => {
         this.$message.success("提交成功")
         window.location.reload()
       }).catch(e => {
@@ -178,7 +168,7 @@ export default {
         return
       }
       // 填充上传文件列表
-      this.userAuah.certificatesUrl = file.response.data
+      this.userAuth.certificatesUrl = file.response.data
     }
   }
 }

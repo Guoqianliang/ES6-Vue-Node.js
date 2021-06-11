@@ -229,6 +229,7 @@ import "~/assets/css/hospital.css";
 
 import hospitalApi from "@/api/hosp";
 import patientApi from "@/api/patient";
+import orderApi from "@/api/orderInfo";
 
 export default {
   data() {
@@ -277,8 +278,24 @@ export default {
       this.activeIndex = index;
       this.patient = this.patientList[index];
     },
-
-    submitOrder() {},
+    // 生成订单
+    submitOrder() {
+      if (this.submitBnt == "正在提交") {
+        this.$message.error("不能重复提交");
+        return;
+      }
+      this.submitBnt = "正在提交";
+      orderApi
+        .saveOrders(this.scheduleId, this.patient.id)
+        .then((response) => {
+          // 订单Id
+          let orderId = response.data;
+          window.location.href = "/order/show?orderId=" + orderApi;
+        })
+        .catch((e) => {
+          this.submitBnt = "确认挂号";
+        });
+    },
 
     addPatient() {
       window.location.href = "/patient/add";

@@ -10,8 +10,6 @@ const service = axios.create({
 // http request 拦截器
 service.interceptors.request.use(
     config => {
-        // token 先不处理，后续使用时在完善
-        //判断cookie是否有token值
         if (cookie.get('token')) {
             //token值放到cookie里面
             config.headers['token'] = cookie.get('token')
