@@ -24,7 +24,6 @@ service.interceptors.response.use(
     
     response => {
         //状态码是208
-        
         if (response.data.code === 208) {
             //弹出登录输入框
             loginEvent.$emit('loginDialogEvent')

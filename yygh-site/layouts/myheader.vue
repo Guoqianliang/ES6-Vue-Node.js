@@ -150,12 +150,13 @@
             </div>
           </div>
           <div class="slogan">
-            <div>xxxxxx官方指定平台</div>
-            <div>快速挂号 安全放心</div>
+            <div>牧医通网上预约挂号统一平台</div>
+            <div>     --by:18数媒移动第二组</div>
           </div>
         </div>
       </div>
     </el-dialog>
+    <div></div>
   </div>
 </template>
 
